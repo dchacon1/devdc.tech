@@ -73,8 +73,6 @@ body {
 
 .section-sub-heading {
     font-size: 17px;
-    // border-bottom-width: 1px;
-    // @extend %border-style;
     margin-bottom: 10px;
 
     &:after {
@@ -98,8 +96,18 @@ body {
     justify-content: space-between;
 
     > * {
-        flex: 0 0 33%;
-        min-width: 33%;
+        flex: 0 0 100%;
+        max-width: 100%;
+
+        @media screen and (min-width: 550px) {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        @media screen and (min-width: 1024px) {
+            flex: 0 0 33%;
+            max-width: 33%;
+        }
     }
 }
 
@@ -109,8 +117,13 @@ body {
     justify-content: space-between;
 
     > * {
-        flex: 0 0 50%;
-        min-width: 50%;
+        flex: 0 0 100%;
+        max-width: 100%;
+
+        @media screen and (min-width: 700px) {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
     }
 }
 
