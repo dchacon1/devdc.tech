@@ -81,7 +81,7 @@ body {
     border-bottom-width: 3px;
     @extend %border-style;
     display: inline-block;
-    
+
 }
 
 .section-sub-heading {
@@ -182,7 +182,7 @@ body {
     @extend .flex-two-col;
     border-bottom-width: 1px;
     @extend %border-style;
-    
+
 
     > *:last-child {
         text-align: right;
