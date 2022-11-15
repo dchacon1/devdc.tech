@@ -1,0 +1,13 @@
+body {
+	display: flex;
+}
+
+h1 {
+	font-size: 2em;
+	margin-bottom: 1em;
+}
+
+main {
+	max-width: 80%;
+	margin: auto;
+}

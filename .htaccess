@@ -1,0 +1,16 @@
+# Directive to stop php files from being directly accessed
+<FilesMatch "\.(php)$">
+	Order Allow,Deny
+	Deny from all
+</FilesMatch>
+<FilesMatch "index\.php">
+	Allow from all
+</FilesMatch>
+
+# Directive to allow the current directory structure
+# Allows static files
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^((?!index\.php).+)$ /index.php [L]
+</IfModule>
