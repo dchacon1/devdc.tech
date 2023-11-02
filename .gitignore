@@ -2,3 +2,6 @@
 
 images*
 videos*
+public/apps
+public/assets/images
+public/assets/videos
