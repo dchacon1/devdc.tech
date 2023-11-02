@@ -85,6 +85,7 @@ function get_page_styles()
 	$styles = "";
 
 	foreach ($GLOBALS['page_styles'] as $stylesheet) {
+        export_app_asset_to_public($stylesheet);
 		$styles.= '<link rel="stylesheet" href="'.str_replace( ROOT, '', sanitize_asset_url($stylesheet) ).'">'."\n";
 	}
 
@@ -96,6 +97,7 @@ function get_page_scripts()
 	$scripts = "";
 
 	foreach ($GLOBALS['page_scripts'] as $script) {
+        export_app_asset_to_public($script);
 		$scripts.= '<script src="'.str_replace( ROOT, '', sanitize_asset_url($script) ).'"></script>'."\n";
 	}
 
@@ -110,4 +112,15 @@ function sanitize_asset_url($url)
 	$url = str_replace( 'https%3A', 'https:', $url );
 	$url = str_replace( 'http%3A', 'http:', $url );
 	return $url;
+}
+
+function export_app_asset_to_public($assetPath)
+{
+    if(!str_contains($assetPath, SITENAME)) return false;
+
+    if (!file_exists('/public'.str_replace( ROOT, '', sanitize_asset_url($assetPath) ))) {
+        mkdir(dirname(ROOT.'/public'.str_replace( ROOT, '', sanitize_asset_url($assetPath) )), 0777, true);
+    }
+
+    copy(ROOT.str_replace( ROOT, '', sanitize_asset_url($assetPath) ), ROOT.'/public'.str_replace( ROOT, '', sanitize_asset_url($assetPath) ));
 }
