@@ -1,4 +1,33 @@
 <?php
+
+// Get all files that are direct children of specified directory
+// -------------------------------------------
+function get_child_files($pathToDirectory) {
+    $childFiles = get_all_decendent_files($pathToDirectory);
+
+    foreach ($childFiles as $index => $directChild) {
+        if (is_array($directChild)) unset($childFiles[$index]);
+    }
+
+    return array_values($childFiles);
+}
+
+function get_all_decendent_files($pathToDirectory) {
+    $pathToDirectory = is_array($pathToDirectory) ? dirname($pathToDirectory[0].'/') : $pathToDirectory;
+    $allDirectChildren = scandir($pathToDirectory);
+    $childFiles = [];
+
+    foreach ($allDirectChildren as $index => $directChild) {
+        if (is_dir($pathToDirectory.$directChild) && $directChild != '.' && $directChild != '..') {
+            array_push($childFiles, get_all_decendent_files($pathToDirectory.$directChild.'/'));
+        } else if (is_file($pathToDirectory.$directChild)) {
+            array_push($childFiles, $pathToDirectory.$directChild);
+        }
+    }
+
+    return array_values($childFiles);
+}
+
 function print_object($data)
 {
     echo "<pre>";
@@ -56,6 +85,7 @@ function get_page_styles()
 	$styles = "";
 
 	foreach ($GLOBALS['page_styles'] as $stylesheet) {
+        export_app_asset_to_public($stylesheet);
 		$styles.= '<link rel="stylesheet" href="'.str_replace( ROOT, '', sanitize_asset_url($stylesheet) ).'">'."\n";
 	}
 
@@ -67,6 +97,7 @@ function get_page_scripts()
 	$scripts = "";
 
 	foreach ($GLOBALS['page_scripts'] as $script) {
+        export_app_asset_to_public($script);
 		$scripts.= '<script src="'.str_replace( ROOT, '', sanitize_asset_url($script) ).'"></script>'."\n";
 	}
 
@@ -81,4 +112,15 @@ function sanitize_asset_url($url)
 	$url = str_replace( 'https%3A', 'https:', $url );
 	$url = str_replace( 'http%3A', 'http:', $url );
 	return $url;
+}
+
+function export_app_asset_to_public($assetPath)
+{
+    if(!str_contains($assetPath, SITENAME)) return false;
+
+    if (!file_exists('/public'.str_replace( ROOT, '', sanitize_asset_url($assetPath) ))) {
+        mkdir(dirname(ROOT.'/public'.str_replace( ROOT, '', sanitize_asset_url($assetPath) )), 0777, true);
+    }
+
+    copy(ROOT.str_replace( ROOT, '', sanitize_asset_url($assetPath) ), ROOT.'/public'.str_replace( ROOT, '', sanitize_asset_url($assetPath) ));
 }
