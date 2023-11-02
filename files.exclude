@@ -1,4 +1,5 @@
 .git*
 .htaccess
+public/apps
 assets/videos
 assets/images
