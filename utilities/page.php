@@ -1,5 +1,7 @@
 <?php
+
 get_page();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
