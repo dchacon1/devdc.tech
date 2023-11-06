@@ -1,0 +1,3 @@
+Deploy this repository using the following code
+
+rsync -rvz --dry-run --delete --exclude-from=/mnt/c/git/devdc/files.exclude -e ssh /mnt/c/git/devdc/ digitalocean:/var/www/devdc.tech/

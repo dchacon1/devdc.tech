@@ -1,5 +1,8 @@
 .git*
 .htaccess
-public/apps
-assets/videos
-assets/images
+
+images/
+videos/
+
+# APP DIRECTORIES ARE ENCAPSULATED AND CONTAIN THEIR OWN REPOSITORIES
+apps/
