@@ -1,7 +1,7 @@
 .DS_Store
 
-images/
-videos/
+images
+videos
 
 # APP DIRECTORIES ARE ENCAPSULATED AND CONTAIN THEIR OWN REPOSITORIES
-apps/
+apps
