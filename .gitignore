@@ -1,7 +1,7 @@
 .DS_Store
 
-images*
-videos*
-public/apps
-public/assets/images
-public/assets/videos
+images/
+videos/
+
+# APP DIRECTORIES ARE ENCAPSULATED AND CONTAIN THEIR OWN REPOSITORIES
+apps/
