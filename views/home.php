@@ -38,16 +38,13 @@ function set_home_content()
             <nav id="navbar" aria-label="Page" class="page-nav">
                 <ul class="page-nav__list">
                     <li class="page-nav__list">
-                        <a class="page-nav__link" href="/resume/">Resume</a>
-                    </li>
-                    <li class="page-nav__list">
-                        <a class="page-nav__link" href="#welcome-section">About me</a>
-                    </li>
-                    <li class="page-nav__list">
                         <a class="page-nav__link"href="#projects">Projects</a>
                     </li>
                     <li class="page-nav__list">
                         <a class="page-nav__link" href="#connect">Connect</a>
+                    </li>
+                    <li class="page-nav__list">
+                        <a class="page-nav__link" href="/resume/">Resume</a>
                     </li>
                 </ul>
             </nav>
