@@ -4,5 +4,6 @@ images
 videos
 
 # APP DIRECTORIES ARE ENCAPSULATED AND CONTAIN THEIR OWN REPOSITORIES
+public/assets/*/apps
 apps/*
 !apps/readme.md
