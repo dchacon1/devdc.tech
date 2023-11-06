@@ -128,7 +128,7 @@ function sanitize_asset_url($url)
 
 function export_app_asset_to_public($assetPath)
 {
-    if(!str_contains($assetPath, SITENAME)) return false;
+    if(!str_contains($assetPath, PRODUCTION_DOMAIN)) return false;
 
     if (!file_exists('/public'.str_replace( ROOT, '', sanitize_asset_url($assetPath) ))) {
         mkdir(dirname(ROOT.'/public'.str_replace( ROOT, '', sanitize_asset_url($assetPath) )), 0777, true);
