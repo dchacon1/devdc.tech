@@ -2,6 +2,7 @@
 // DEFINE CONSTANTS
 // -------------------------------------------
 define('ROOT', dirname(__DIR__, 1));
+define('STREAMING_ENABLED', false);
 define('SITENAME', 'devdc');
 
 // Include Utilities
