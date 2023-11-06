@@ -42,36 +42,48 @@ function convert_to_kebab_case($str)
 
 function get_page()
 {
-	$uri = isset($_SERVER['REDIRECT_URL']) ? ltrim($_SERVER['REDIRECT_URL'],'/') : '';
+    // One level deep page URI. Works with urls like /about/ does not work with /videos/comedy/
+	$uri = isset($_SERVER['REDIRECT_URL']) ? rtrim(ltrim($_SERVER['REDIRECT_URL'],'/'),'/') : '';
 
-	$page = 'get_page_not_found';
+	$page = '';
 
-	if(isset($_SERVER['REDIRECT_URL'])) {
-		foreach (scandir(ROOT.'/apps/') as $dir) {
-			if($dir == rtrim(substr($uri, 5, strlen($uri)),'/') ) {
-				@include_once ROOT.'/apps/'.$dir.'/'.$dir.'.php';
+    // Check for View
+    if($page == '') {
+        foreach (get_child_files(ROOT.'/views/') as $file) {
+            if(rtrim(basename($file),'.php') == $uri) {
+                @include_once ROOT.'/views/'.basename($file);
 
-				$page = 'get_'.str_replace('-', '_', convert_to_kebab_case($dir));
-				break;
-			}
-		}
+                $page = str_replace('-', '_', convert_to_kebab_case(rtrim(basename($file),'.php')));
+                break;
+            }
+        }
+    }
 
-		if(strpos($page, 'get_page_not_found') !== false) {
-			foreach (get_child_files(ROOT.'/views/') as $file) {
-				if(rtrim(basename($file),'.php') == $uri) {
-					@include_once ROOT.'/views/'.basename($file);
+    // Check for Apps (encapsulated)
+    if($page == '') {
+        foreach (scandir(ROOT.'/apps/') as $dir) {
+            if($dir == rtrim(substr($uri, 5, strlen($uri)),'/') ) {
+                @include_once ROOT.'/apps/'.$dir.'/index.php';
 
-					$page = 'get_'.str_replace('-', '_', convert_to_kebab_case(rtrim(basename($file),'.php')));
-					break;
-				}
-			}
-		}
-	}
-	else {
-		@include_once ROOT.'/views/home.php';
-		$page = 'get_home';
-	}
+                $page = str_replace('-', '_', convert_to_kebab_case($dir));
+                break;
+            }
+        }
+    }
 
+    // Check for not found
+    if($page == '') {
+        @include_once ROOT.'/views/not-found.php';
+        $page = 'page_not_found';
+    }
+
+    // Set to home (default)
+    if($uri == '') {
+        @include_once ROOT.'/views/home.php';
+        $page = 'home';
+    }
+
+    $page = 'get_'.$page;
 	$page();
 }
 
