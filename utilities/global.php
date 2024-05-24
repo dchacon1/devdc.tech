@@ -84,7 +84,10 @@ function get_page()
     }
 
     $page = 'get_'.$page;
-	$page();
+
+    if (function_exists($page)) {
+	    $page();
+    }
 }
 
 function get_page_content()
