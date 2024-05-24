@@ -1,6 +1,7 @@
 <?php
 function get_page_not_found()
 {
+	header('HTTP/1.1 404');
 	$GLOBALS['page_scripts'] = [];
 
 	$GLOBALS['page_styles'] = [
