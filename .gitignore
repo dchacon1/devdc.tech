@@ -3,6 +3,7 @@
 .htaccess
 images
 videos
+uploads
 
 # APP DIRECTORIES ARE ENCAPSULATED AND CONTAIN THEIR OWN REPOSITORIES
 public/assets/*/apps
