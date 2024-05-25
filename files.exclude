@@ -3,6 +3,7 @@
 
 images/
 videos/
+uploads/
 
 # APP DIRECTORIES ARE ENCAPSULATED AND CONTAIN THEIR OWN REPOSITORIES
 apps/
