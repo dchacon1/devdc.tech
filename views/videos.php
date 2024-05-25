@@ -37,13 +37,9 @@ function parse_size($size) {
     }
 }
 
-
-
 if(!STREAMING_ENABLED) {
     $notFound = true;
 }
-
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
@@ -60,23 +56,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $asset = $_FILES['file_data'];
-    //Stores the filename as it was on the client computer.
-    $assetName = $asset['name'];
-    //Stores the filetype e.g image/jpeg
-    $assetType = $asset['type'];
-    //Stores any error codes from the upload.
-    $assetError = $asset['error'];
-    //Stores the tempname as it is given by the host when uploaded.
-    $assetTemp = $asset['tmp_name'];
-
     if (!is_dir(dirname(__DIR__, 1).'/uploads/')) {
         mkdir(dirname(__DIR__, 1).'/uploads/', 0777, true);
     }
 
-    $assetPath = dirname(__DIR__, 1).'/uploads/';
+    $uploadPath = dirname(__DIR__, 1).'/uploads/';
     $extensionsAllowed = ['png','jpg','jpeg','tiff','tif','pdf','webp','mp4','mp3','acc'];
-    $fileExtension =  pathinfo($assetName, PATHINFO_EXTENSION);
+
+    $file = $_FILES['file_data'];
+    //Stores the filename as it was on the client computer without extension.
+    $fileName = basename($file['name']);
+    //Stores file extension
+    $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    //Stores the filetype e.g image/jpeg
+    $fileType = $file['type'];
+    //Stores any error codes from the upload.
+    $fileError = $file['error'];
+    //Stores the tempname as it is given by the host when uploaded.
+    $fileTemp = $file['tmp_name'];
 
     if(array_search($fileExtension, $extensionsAllowed) === false) {
         http_response_code(415);
@@ -84,19 +81,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-
-
-    if(is_uploaded_file($assetTemp)) {
-        if(move_uploaded_file($assetTemp, $assetPath . $assetName)) {
+    if(is_uploaded_file($fileTemp)) {
+        if(move_uploaded_file($fileTemp, $uploadPath . $fileName.".".$fileExtension)) {
             echo json_encode(['status'=>200,'message'=>'Upload success!']);
             exit;
         }
         else {
+            http_response_code(500);
             echo json_encode(['status'=>500,'message'=>'Failed to move your file.']);
             exit;
         }
     }
     else {
+        http_response_code(500);
         echo json_encode(['status'=>500,'message'=>'Failed to upload your file.']);
         exit;
     }
@@ -105,11 +102,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 else {
 
     if(count($queries) > 0 && isset($queries["asset_name"])) {
-        $fileName = dirname(__DIR__, 1).'/uploads/'.$queries["asset_name"].'.mp4';
+        $filePath = dirname(__DIR__, 1).'/uploads/'.$queries["asset_name"].'.mp4';
 
-        if(file_exists($fileName)) {
+        if(file_exists($filePath)) {
             include dirname(__DIR__, 1). "/utilities/VideoStream.php";
-            $stream = new VideoStream($fileName);
+            $stream = new VideoStream($filePath);
             $stream->start();
         }
         else {
