@@ -7,5 +7,7 @@ uploads
 
 # APP DIRECTORIES ARE ENCAPSULATED AND CONTAIN THEIR OWN REPOSITORIES
 public/assets/*/apps
+public/apps
 apps/*
 !apps/readme.md
+publichttps*
